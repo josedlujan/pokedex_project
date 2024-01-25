@@ -4,13 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presentation/navigation/navigation.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_event.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_selector.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_state.dart';
 import 'package:pokedex/presentation/widgets/loading.dart';
 import 'package:pokedex/utils/extensions/animation.dart';
 import 'package:pokedex/data/entities/pokemon.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_event.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_selector.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_state.dart';
+
 import 'package:pokedex/presentation/modals/generation_modal.dart';
 import 'package:pokedex/presentation/modals/search_modal.dart';
 import 'package:pokedex/presentation/widgets/app_bar.dart';

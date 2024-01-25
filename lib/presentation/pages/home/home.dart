@@ -4,9 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presentation/navigation/navigation.dart';
-import 'package:pokedex/data/states/settings/settings_bloc.dart';
-import 'package:pokedex/data/states/settings/settings_event.dart';
-import 'package:pokedex/data/states/settings/settings_selector.dart';
+
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_bloc.dart';
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_event.dart';
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_selector.dart';
 import 'package:pokedex/presentation/themes/colors.dart';
 import 'package:pokedex/presentation/themes/extensions.dart';
 import 'package:pokedex/presentation/themes/themes/themes.dark.dart';

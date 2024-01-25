@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_event.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_state.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:pokedex/data/repositories/pokemon_repository.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_event.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_state.dart';
 
 @singleton
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
@@ -26,7 +26,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     on<PokemonSelectChanged>(_onSelectChanged);
   }
 
-  void _onLoadStarted(PokemonLoadStarted event, Emitter<PokemonState> emit) async {
+  void _onLoadStarted(
+      PokemonLoadStarted event, Emitter<PokemonState> emit) async {
     try {
       emit(state.copyWith(
         status: PokemonStateStatus.loading,
@@ -34,7 +35,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       final pokemons = event.loadAll
           ? await _pokemonRepository.getAllPokemons()
-          : await _pokemonRepository.getPokemons(page: 1, limit: pokemonsPerPage);
+          : await _pokemonRepository.getPokemons(
+              page: 1, limit: pokemonsPerPage);
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
 
@@ -52,7 +54,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     }
   }
 
-  void _onLoadMoreStarted(PokemonLoadMoreStarted event, Emitter<PokemonState> emit) async {
+  void _onLoadMoreStarted(
+      PokemonLoadMoreStarted event, Emitter<PokemonState> emit) async {
     try {
       if (!state.canLoadMore) return;
 
@@ -81,7 +84,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     }
   }
 
-  void _onSelectChanged(PokemonSelectChanged event, Emitter<PokemonState> emit) async {
+  void _onSelectChanged(
+      PokemonSelectChanged event, Emitter<PokemonState> emit) async {
     try {
       final pokemonIndex = state.pokemons.indexWhere(
         (pokemon) => pokemon.number == event.pokemonId,

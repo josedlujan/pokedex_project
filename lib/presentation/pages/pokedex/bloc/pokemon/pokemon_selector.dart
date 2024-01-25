@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/data/entities/pokemon.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_state.dart';
 
-class PokemonStateSelector<T> extends BlocSelector<PokemonBloc, PokemonState, T> {
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_state.dart';
+
+class PokemonStateSelector<T>
+    extends BlocSelector<PokemonBloc, PokemonState, T> {
   PokemonStateSelector({
     super.key,
     required super.selector,
@@ -14,8 +16,10 @@ class PokemonStateSelector<T> extends BlocSelector<PokemonBloc, PokemonState, T>
         );
 }
 
-class PokemonStateStatusSelector extends PokemonStateSelector<PokemonStateStatus> {
-  PokemonStateStatusSelector(Widget Function(PokemonStateStatus) builder, {super.key})
+class PokemonStateStatusSelector
+    extends PokemonStateSelector<PokemonStateStatus> {
+  PokemonStateStatusSelector(Widget Function(PokemonStateStatus) builder,
+      {super.key})
       : super(
           selector: (state) => state.status,
           builder: builder,
@@ -47,7 +51,8 @@ class CurrentPokemonSelector extends PokemonStateSelector<Pokemon> {
 }
 
 class PokemonSelector extends PokemonStateSelector<PokemonSelectorState> {
-  PokemonSelector(int index, Widget Function(Pokemon, bool) builder, {super.key})
+  PokemonSelector(int index, Widget Function(Pokemon, bool) builder,
+      {super.key})
       : super(
           selector: (state) => PokemonSelectorState(
             state.pokemons[index],
@@ -65,7 +70,9 @@ class PokemonSelectorState {
 
   @override
   bool operator ==(Object other) =>
-      other is PokemonSelectorState && pokemon == other.pokemon && selected == other.selected;
+      other is PokemonSelectorState &&
+      pokemon == other.pokemon &&
+      selected == other.selected;
 
   @override
   int get hashCode => pokemon.hashCode ^ selected.hashCode;

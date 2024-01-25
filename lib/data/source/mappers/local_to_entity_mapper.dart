@@ -1,3 +1,5 @@
+import 'package:pokedex/data/entities/favorites.dart';
+import 'package:pokedex/data/source/local/models/favorites.dart';
 import 'package:pokedex/data/source/local/models/item.dart';
 import 'package:pokedex/data/source/local/models/pokemon.dart';
 import 'package:pokedex/data/source/local/models/pokemon_gender.dart';
@@ -17,7 +19,8 @@ extension PokemonHiveModelX on PokemonHiveModel {
         height: height.trim(),
         weight: weight.trim(),
         genera: genera.trim(),
-        eggGroups: eggGroups.map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
+        eggGroups:
+            eggGroups.map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
         gender: gender.toEntity(),
         stats: stats.toEntity(),
         baseExp: baseExp,
@@ -47,6 +50,16 @@ extension PokemonStatsHiveModelX on PokemonStatsHiveModel {
 
 extension ItemHiveModelX on ItemHiveModel {
   Item toEntity({List<ItemHiveModel> evolutions = const []}) => Item(
+        name: name?.trim() ?? '',
+        category: name?.trim() ?? '',
+        image: imageurl?.trim() ?? '',
+        effect: effect?.trim() ?? '',
+      );
+}
+
+extension FavoriteHiveModelX on FavoriteHiveModel {
+  Favorites toEntity({List<FavoriteHiveModel> evolutions = const []}) =>
+      Favorites(
         name: name?.trim() ?? '',
         category: name?.trim() ?? '',
         image: imageurl?.trim() ?? '',

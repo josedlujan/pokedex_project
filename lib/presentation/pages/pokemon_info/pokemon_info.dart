@@ -6,10 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/data/entities/pokemon.dart';
 import 'package:pokedex/data/entities/pokemon_properties.dart';
 import 'package:pokedex/data/entities/pokemon_types.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_event.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_selector.dart';
+
 import 'package:pokedex/presentation/assets.gen.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_event.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_selector.dart';
 import 'package:pokedex/presentation/pages/pokemon_info/state_provider.dart';
 import 'package:pokedex/presentation/themes/colors.dart';
 import 'package:pokedex/presentation/themes/extensions.dart';
@@ -44,7 +45,8 @@ class PokemonInfoPage extends StatefulWidget {
   PokemonInfoState createState() => PokemonInfoState();
 }
 
-class PokemonInfoState extends State<PokemonInfoPage> with TickerProviderStateMixin {
+class PokemonInfoState extends State<PokemonInfoPage>
+    with TickerProviderStateMixin {
   late AnimationController _slideController;
   late AnimationController _rotateController;
 

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pokedex/data/entities/favorites.dart';
 import 'package:pokedex/data/entities/item.dart';
 import 'package:pokedex/presentation/assets.gen.dart';
 import 'package:pokedex/presentation/themes/colors.dart';

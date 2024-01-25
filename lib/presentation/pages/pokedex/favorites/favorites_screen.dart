@@ -1,13 +1,53 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/data/entities/item.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_selector.dart';
+import 'package:pokedex/presentation/pages/items/widgets/item_card.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_event.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_selector.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_state.dart';
 import 'package:pokedex/presentation/widgets/app_bar.dart';
 import 'package:pokedex/presentation/widgets/loading.dart';
+import 'package:pokedex/presentation/widgets/pokemon_card.dart';
 
 import 'package:pokedex/presentation/widgets/scaffold.dart';
 
 @RoutePage()
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
+
+  @override
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  FavoriteBloc get favoriteBloc => context.read<FavoriteBloc>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    scheduleMicrotask(() {
+      favoriteBloc.add(const FavoriteLoadStarted());
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  Future _onRefresh() async {
+    favoriteBloc.add(const FavoriteLoadStarted());
+
+    return favoriteBloc.stream
+        .firstWhere((e) => e.status != FavoriteStateStatus.loading);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +59,22 @@ class FavoritesScreen extends StatelessWidget {
               headerSliverBuilder: (_, __) => [
                 AppMovingTitleSliverAppBar(title: 'Favoritos'),
               ],
-              body: _buildGrid(),
+              body: FavoriteStateStatusSelector(
+                (status) {
+                  switch (status) {
+                    case FavoriteStateStatus.initial:
+                    case FavoriteStateStatus.loading:
+                      return const PikaLoadingIndicator();
+
+                    case FavoriteStateStatus.success:
+                    case FavoriteStateStatus.loadingMore:
+                      return _buildGrid();
+
+                    case FavoriteStateStatus.failure:
+                      return _buildError();
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -29,13 +84,13 @@ class FavoritesScreen extends StatelessWidget {
 }
 
 /// Pokemen Favorites Grid
-
 Widget _buildGrid() {
   return CustomScrollView(
     slivers: [
       SliverPadding(
         padding: const EdgeInsets.all(28),
-        sliver: SliverGrid(
+        sliver: NumberOfFavoritesSelector((numberOfFavorites) {
+          return SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1.4,
@@ -44,18 +99,40 @@ Widget _buildGrid() {
             ),
             delegate: SliverChildBuilderDelegate(
               (_, index) {
-                return ListTile(
-                  title: Text('Pokemon'),
-                  subtitle: Text('Text'),
-                );
+                return FavoriteSelector(index, (favorites, _) {
+                  return ListTile(
+                    title: Text('1'),
+                  );
+                });
               },
-              childCount: 10,
-            )),
+              childCount: numberOfFavorites,
+            ),
+          );
+        }),
       ),
       SliverToBoxAdapter(
         child: Container(
           padding: const EdgeInsets.only(bottom: 28),
           child: const PikaLoadingIndicator(),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildError() {
+  return CustomScrollView(
+    slivers: [
+      // PokemonRefreshControl(onRefresh: _onRefresh),
+      SliverFillRemaining(
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 28),
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.warning_amber_rounded,
+            size: 60,
+            color: Colors.black26,
+          ),
         ),
       ),
     ],

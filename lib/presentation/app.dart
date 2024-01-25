@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:pokedex/presentation/navigation/navigation.dart';
-import 'package:pokedex/data/states/settings/settings_selector.dart';
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_selector.dart';
 
 class PokedexApp extends StatelessWidget {
   final AppRouter _router = AppRouter();

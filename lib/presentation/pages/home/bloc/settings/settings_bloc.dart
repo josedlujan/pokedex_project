@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/data/states/settings/settings_event.dart';
-import 'package:pokedex/data/states/settings/settings_state.dart';
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_event.dart';
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_state.dart';
 
 @singleton
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -9,7 +9,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsThemeChanged>(_onThemeChanged);
   }
 
-  void _onThemeChanged(SettingsThemeChanged event, Emitter<SettingsState> emit) async {
+  void _onThemeChanged(
+      SettingsThemeChanged event, Emitter<SettingsState> emit) async {
     emit(state.copyWith(theme: event.theme));
   }
 }

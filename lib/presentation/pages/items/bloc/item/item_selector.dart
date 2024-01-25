@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/data/entities/item.dart';
-import 'package:pokedex/data/states/item/item_bloc.dart';
-import 'package:pokedex/data/states/item/item_state.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_bloc.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_state.dart';
 
 class ItemStateSelector<T> extends BlocSelector<ItemBloc, ItemState, T> {
   ItemStateSelector({
@@ -65,7 +65,9 @@ class ItemSelectorState {
 
   @override
   bool operator ==(Object other) =>
-      other is ItemSelectorState && item == other.item && selected == other.selected;
+      other is ItemSelectorState &&
+      item == other.item &&
+      selected == other.selected;
 
   @override
   int get hashCode => item.hashCode ^ selected.hashCode;

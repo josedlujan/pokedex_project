@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pokedex/data/repositories/item_repository.dart';
-import 'package:pokedex/data/states/item/item_event.dart';
-import 'package:pokedex/data/states/item/item_state.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_event.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_state.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 @singleton
@@ -51,7 +51,8 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
     }
   }
 
-  void _onLoadMoreStarted(ItemLoadMoreStarted event, Emitter<ItemState> emit) async {
+  void _onLoadMoreStarted(
+      ItemLoadMoreStarted event, Emitter<ItemState> emit) async {
     try {
       if (!state.canLoadMore) return;
 

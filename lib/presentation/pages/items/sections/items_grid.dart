@@ -37,7 +37,8 @@ class _ItemGridState extends State<_ItemGrid> {
 
     if (innerController == null || !innerController.hasClients) return;
 
-    final thresholdReached = innerController.position.extentAfter < _endReachedThreshold;
+    final thresholdReached =
+        innerController.position.extentAfter < _endReachedThreshold;
 
     if (thresholdReached) {
       // Load more!
@@ -48,7 +49,8 @@ class _ItemGridState extends State<_ItemGrid> {
   Future _onRefresh() async {
     itemBloc.add(const ItemLoadStarted());
 
-    return itemBloc.stream.firstWhere((e) => e.status != ItemStateStatus.loading);
+    return itemBloc.stream
+        .firstWhere((e) => e.status != ItemStateStatus.loading);
   }
 
   @override

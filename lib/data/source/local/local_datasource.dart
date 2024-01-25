@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pokedex/data/source/local/models/favorites.dart';
 import 'package:pokedex/data/source/local/models/item.dart';
 import 'package:pokedex/data/source/local/models/pokemon.dart';
 import 'package:pokedex/data/source/local/models/pokemon_gender.dart';
@@ -16,14 +17,18 @@ class LocalDataSource {
     await Hive.initFlutter();
 
     Hive.registerAdapter<PokemonHiveModel>(PokemonHiveModelAdapter());
-    Hive.registerAdapter<PokemonGenderHiveModel>(PokemonGenderHiveModelAdapter());
+    Hive.registerAdapter<PokemonGenderHiveModel>(
+        PokemonGenderHiveModelAdapter());
     Hive.registerAdapter<PokemonStatsHiveModel>(PokemonStatsHiveModelAdapter());
     Hive.registerAdapter<ItemHiveModel>(ItemHiveModelAdapter());
+
+    Hive.registerAdapter<FavoriteHiveModel>(FavoriteHiveModelAdapter());
 
     await Hive.openBox<PokemonHiveModel>(PokemonHiveModel.boxKey);
     await Hive.openBox<PokemonGenderHiveModel>(PokemonGenderHiveModel.boxKey);
     await Hive.openBox<PokemonStatsHiveModel>(PokemonStatsHiveModel.boxKey);
     await Hive.openBox<ItemHiveModel>(ItemHiveModel.boxKey);
+    await Hive.openBox<FavoriteHiveModel>(FavoriteHiveModel.boxKey);
   }
 
   Future<bool> hasData() async {
@@ -38,6 +43,12 @@ class LocalDataSource {
     return itemBox.length > 0;
   }
 
+  Future<bool> hasFavoriteData() async {
+    final favoriteBox = Hive.box<FavoriteHiveModel>(FavoriteHiveModel.boxKey);
+
+    return favoriteBox.length > 0;
+  }
+
   Future<void> savePokemons(Iterable<PokemonHiveModel> pokemons) async {
     final pokemonBox = Hive.box<PokemonHiveModel>(PokemonHiveModel.boxKey);
 
@@ -50,21 +61,24 @@ class LocalDataSource {
   Future<List<PokemonHiveModel>> getAllPokemons() async {
     final pokemonBox = Hive.box<PokemonHiveModel>(PokemonHiveModel.boxKey);
 
-    final pokemons = List.generate(pokemonBox.length, (index) => pokemonBox.getAt(index))
-        .whereType<PokemonHiveModel>()
-        .toList();
+    final pokemons =
+        List.generate(pokemonBox.length, (index) => pokemonBox.getAt(index))
+            .whereType<PokemonHiveModel>()
+            .toList();
 
     return pokemons;
   }
 
-  Future<List<PokemonHiveModel>> getPokemons({required int page, required int limit}) async {
+  Future<List<PokemonHiveModel>> getPokemons(
+      {required int page, required int limit}) async {
     final pokemonBox = Hive.box<PokemonHiveModel>(PokemonHiveModel.boxKey);
     final totalPokemons = pokemonBox.length;
 
     final start = (page - 1) * limit;
     final newPokemonCount = min(totalPokemons - start, limit);
 
-    final pokemons = List.generate(newPokemonCount, (index) => pokemonBox.getAt(start + index))
+    final pokemons = List.generate(
+            newPokemonCount, (index) => pokemonBox.getAt(start + index))
         .whereType<PokemonHiveModel>()
         .toList();
 
@@ -78,7 +92,8 @@ class LocalDataSource {
   }
 
   Future<List<PokemonHiveModel>> getEvolutions(PokemonHiveModel pokemon) async {
-    final pokemonFutures = pokemon.evolutions.map((pokemonNumber) => getPokemon(pokemonNumber));
+    final pokemonFutures =
+        pokemon.evolutions.map((pokemonNumber) => getPokemon(pokemonNumber));
 
     final pokemons = await Future.wait(pokemonFutures);
 
@@ -103,17 +118,44 @@ class LocalDataSource {
     return items;
   }
 
-  Future<List<ItemHiveModel>> getItems({required int page, required int limit}) async {
+  Future<List<ItemHiveModel>> getItems(
+      {required int page, required int limit}) async {
     final itemBox = Hive.box<ItemHiveModel>(ItemHiveModel.boxKey);
     final totalItems = itemBox.length;
 
     final start = (page - 1) * limit;
     final newItemCount = min(totalItems - start, limit);
 
-    final items = List.generate(newItemCount, (index) => itemBox.getAt(start + index))
-        .whereType<ItemHiveModel>()
-        .toList();
+    final items =
+        List.generate(newItemCount, (index) => itemBox.getAt(start + index))
+            .whereType<ItemHiveModel>()
+            .toList();
 
     return items;
+  }
+
+  /// save favorite item
+  Future<void> saveFavoriteItem(FavoriteHiveModel item) async {
+    final favoriteBox = Hive.box<FavoriteHiveModel>(FavoriteHiveModel.boxKey);
+
+    await favoriteBox.put(item.name, item);
+  }
+
+  /// get favorite all item
+  Future<List<FavoriteHiveModel>> getFavoriteItems() async {
+    final favoriteBox = Hive.box<FavoriteHiveModel>(FavoriteHiveModel.boxKey);
+
+    final favorites =
+        List.generate(favoriteBox.length, (index) => favoriteBox.getAt(index))
+            .whereType<FavoriteHiveModel>()
+            .toList();
+
+    return favorites;
+  }
+
+  Future<void> removeFavoriteItem(FavoriteHiveModel item) async {
+    final favoriteBox = Hive.box<FavoriteHiveModel>(ItemHiveModel.boxKey);
+
+    await favoriteBox.delete(item.name);
   }
 }

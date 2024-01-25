@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/data/states/item/item_bloc.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex/data/states/settings/settings_bloc.dart';
+
+import 'package:pokedex/presentation/pages/home/bloc/settings/settings_bloc.dart';
+import 'package:pokedex/presentation/pages/items/bloc/item/item_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart';
 
 import 'di.config.dart';
 
@@ -42,7 +44,10 @@ class GlobalBlocProviders extends StatelessWidget {
         ),
         BlocProvider<SettingsBloc>(
           create: (context) => getIt.get<SettingsBloc>(),
-        )
+        ),
+        BlocProvider<FavoriteBloc>(
+          create: (context) => getIt.get<FavoriteBloc>(),
+        ),
       ],
       child: child,
     );

@@ -7,9 +7,10 @@ import 'package:pokedex/data/types.dart';
 import 'package:pokedex/data/entities/pokemon.dart';
 import 'package:pokedex/presentation/assets.gen.dart';
 import 'package:pokedex/presentation/navigation/navigation.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_event.dart';
-import 'package:pokedex/data/states/pokemon/pokemon_state.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_event.dart';
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_state.dart';
+
 import 'package:pokedex/presentation/pages/types/type_container.dart';
 import 'package:pokedex/presentation/pages/types/type_entities/widget_list.dart';
 import 'package:pokedex/presentation/widgets/pokemon_card.dart';
@@ -45,7 +46,9 @@ class ModalContentsState extends State<ModalContents> {
   }
 
   void _onPokemonPress(int index, Pokemon pokemon) {
-    context.read<PokemonBloc>().add(PokemonSelectChanged(pokemonId: pokemon.number));
+    context
+        .read<PokemonBloc>()
+        .add(PokemonSelectChanged(pokemonId: pokemon.number));
 
     context.router.push(PokemonInfoRoute(id: pokemon.number));
   }
@@ -53,8 +56,9 @@ class ModalContentsState extends State<ModalContents> {
   PokeTypes get pokeType => types[widget.index];
 
   ExpansionPanel _buildTypePokemonPanel(List<Pokemon> pokemons) {
-    final filteredPokemons =
-        pokemons.where((pokemon) => pokemon.types.contains(pokeType.type)).toList();
+    final filteredPokemons = pokemons
+        .where((pokemon) => pokemon.types.contains(pokeType.type))
+        .toList();
 
     return ExpansionPanel(
       headerBuilder: (context, isOpen) {
@@ -91,14 +95,15 @@ class ModalContentsState extends State<ModalContents> {
                 children: filteredPokemons.map((pokemon) {
                   return PokemonCard(
                     pokemon,
-                    onPress: () => _onPokemonPress(pokemons.indexOf(pokemon), pokemon),
+                    onPress: () =>
+                        _onPokemonPress(pokemons.indexOf(pokemon), pokemon),
                   );
                 }).toList(),
               )
             : const Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child:
-                    Text("No Pokemon found", style: TextStyle(fontSize: 16, color: Colors.black54)),
+                child: Text("No Pokemon found",
+                    style: TextStyle(fontSize: 16, color: Colors.black54)),
               ),
       ),
       isExpanded: _isOpen[0],
@@ -183,21 +188,25 @@ class ModalContentsState extends State<ModalContents> {
         if (pokeType.superEffective.isNotEmpty)
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: lister(widget.index, 2, widget.width, "Effective Against".toUpperCase()),
+            children: lister(widget.index, 2, widget.width,
+                "Effective Against".toUpperCase()),
           ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: lister(widget.index, 0.5, widget.width, "Weak Against".toUpperCase()),
+          children: lister(
+              widget.index, 0.5, widget.width, "Weak Against".toUpperCase()),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: lister(widget.index, 1, widget.width, "Normal Against".toUpperCase()),
+          children: lister(
+              widget.index, 1, widget.width, "Normal Against".toUpperCase()),
         ),
         if (pokeType.nilEffective.isNotEmpty)
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: lister(widget.index, 0, widget.width, "No Effect Against".toUpperCase()),
+            children: lister(widget.index, 0, widget.width,
+                "No Effect Against".toUpperCase()),
           ),
         BlocBuilder<PokemonBloc, PokemonState>(builder: (_, state) {
           if (state.error != null) {

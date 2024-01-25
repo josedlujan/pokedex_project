@@ -7,9 +7,11 @@ import 'package:pokedex/data/source/github/models/pokemon.dart';
 
 @singleton
 class GithubDataSource {
-  static const String itemsURL = '-';
+  static const String itemsURL =
+      'https://raw.githubusercontent.com/josedlujan/pokedex_project/main/pokemon-items.json';
 
-  static const String url = '-';
+  static const String url =
+      'https://raw.githubusercontent.com/josedlujan/pokedex_project/main/pokemons.json';
 
   final NetworkManager _networkManager;
 
