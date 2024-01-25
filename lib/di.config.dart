@@ -23,15 +23,17 @@ import 'package:pokedex/data/source/github/github_datasource.dart' as _i10;
 import 'package:pokedex/data/source/github/network.dart' as _i5;
 import 'package:pokedex/data/source/local/local_datasource.dart' as _i4;
 import 'package:pokedex/data/usecases/favorite_usecases.dart' as _i9;
-import 'package:pokedex/data/usecases/item_usecases.dart' as _i16;
-import 'package:pokedex/data/usecases/pokemon_usecases.dart' as _i15;
-import 'package:pokedex/di.dart' as _i19;
+import 'package:pokedex/data/usecases/item_usecases.dart' as _i17;
+import 'package:pokedex/data/usecases/pokemon_usecases.dart' as _i16;
+import 'package:pokedex/di.dart' as _i20;
 import 'package:pokedex/presentation/pages/home/bloc/settings/settings_bloc.dart'
     as _i6;
 import 'package:pokedex/presentation/pages/items/bloc/item/item_bloc.dart'
-    as _i17;
-import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart'
     as _i18;
+import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_bloc.dart'
+    as _i15;
+import 'package:pokedex/presentation/pages/pokedex/bloc/pokemon/pokemon_bloc.dart'
+    as _i19;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -69,20 +71,22 @@ extension GetItInjectableX on _i1.GetIt {
       githubDataSource: gh<_i10.GithubDataSource>(),
       localDataSource: gh<_i4.LocalDataSource>(),
     ));
-    gh.singleton<_i15.GetAllPokemonsUseCase>(_i15.GetAllPokemonsUseCase(
+    gh.singleton<_i15.FavoriteBloc>(
+        _i15.FavoriteBloc(favoriteRepository: gh<_i7.FavoriteRepository>()));
+    gh.singleton<_i16.GetAllPokemonsUseCase>(_i16.GetAllPokemonsUseCase(
         pokemonRepository: gh<_i13.PokemonRepository>()));
-    gh.singleton<_i16.GetItemUseCase>(
-        _i16.GetItemUseCase(itemRepository: gh<_i11.ItemRepository>()));
-    gh.singleton<_i15.GetPokemonUseCase>(_i15.GetPokemonUseCase(
+    gh.singleton<_i17.GetItemUseCase>(
+        _i17.GetItemUseCase(itemRepository: gh<_i11.ItemRepository>()));
+    gh.singleton<_i16.GetPokemonUseCase>(_i16.GetPokemonUseCase(
         pokemonRepository: gh<_i13.PokemonRepository>()));
-    gh.singleton<_i15.GetPokemonsUseCase>(_i15.GetPokemonsUseCase(
+    gh.singleton<_i16.GetPokemonsUseCase>(_i16.GetPokemonsUseCase(
         pokemonRepository: gh<_i13.PokemonRepository>()));
-    gh.singleton<_i17.ItemBloc>(
-        _i17.ItemBloc(itemRepository: gh<_i11.ItemRepository>()));
-    gh.singleton<_i18.PokemonBloc>(
-        _i18.PokemonBloc(pokemonRepository: gh<_i13.PokemonRepository>()));
+    gh.singleton<_i18.ItemBloc>(
+        _i18.ItemBloc(itemRepository: gh<_i11.ItemRepository>()));
+    gh.singleton<_i19.PokemonBloc>(
+        _i19.PokemonBloc(pokemonRepository: gh<_i13.PokemonRepository>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i19.RegisterModule {}
+class _$RegisterModule extends _i20.RegisterModule {}

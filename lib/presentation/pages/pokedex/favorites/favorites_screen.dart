@@ -3,18 +3,16 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/data/entities/item.dart';
-import 'package:pokedex/presentation/pages/items/bloc/item/item_selector.dart';
-import 'package:pokedex/presentation/pages/items/widgets/item_card.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_bloc.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_event.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_selector.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_state.dart';
 import 'package:pokedex/presentation/widgets/app_bar.dart';
 import 'package:pokedex/presentation/widgets/loading.dart';
-import 'package:pokedex/presentation/widgets/pokemon_card.dart';
 
 import 'package:pokedex/presentation/widgets/scaffold.dart';
+
+//import '../bloc/favorite/favorite_bloc.dart';
 
 @RoutePage()
 class FavoritesScreen extends StatefulWidget {
@@ -40,13 +38,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-  }
-
-  Future _onRefresh() async {
-    favoriteBloc.add(const FavoriteLoadStarted());
-
-    return favoriteBloc.stream
-        .firstWhere((e) => e.status != FavoriteStateStatus.loading);
   }
 
   @override

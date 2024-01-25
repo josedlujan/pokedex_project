@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pokedex/data/entities/favorites.dart';
 import 'package:pokedex/data/repositories/favorite_repository.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_event.dart';
 import 'package:pokedex/presentation/pages/pokedex/bloc/favorite/favorite_state.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+@singleton
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteRepository _favoriteRepository;
 
@@ -30,7 +32,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           : await _favoriteRepository.getAllFavorites();
 
       //final canLoadMore = favorites.length >= favoritesPerPage;
-
+      print('-:-:_:_:_:_:_:');
+      print(favorites);
       emit(state.copyWith(
         status: FavoriteStateStatus.success,
         favorites: favorites,

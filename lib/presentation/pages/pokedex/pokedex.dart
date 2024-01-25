@@ -42,11 +42,11 @@ class _PokedexPageState extends State<PokedexPage> {
 
     switch (index) {
       case 0:
-        context.router.push(PokedexRoute());
+        context.router.push(const PokedexRoute());
         break;
 
       case 1:
-        context.router.replace(FavoritesRoute());
+        context.router.replace(const FavoritesRoute());
         break;
     }
   }
