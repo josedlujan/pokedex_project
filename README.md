@@ -20,7 +20,8 @@ Se realizo con flutter y utiliza:
 - Animaciones
 
 ## Video
-[Uploading videofinal.webm…]()
+[videofinal.webm](https://github.com/josedlujan/pokedex_project/assets/1326172/fb5b7ff2-efeb-46e9-ae70-8982b4794a4e)
+
 
 ## Instalacion
 Asumiendo que ya se cuenta con Flutter/Dart y un editor(Visual Studio o Android Studio)
